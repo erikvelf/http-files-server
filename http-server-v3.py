@@ -72,7 +72,7 @@ def main():
     if which_os.lower() == "windows":
         can_reuse_port = False
     print(f"\n[0] Using {which_os}.")
-    log(f"\n\n[0] Using {which_os}.\n")
+    log(f"[0] Using {which_os}.\n\n")
 
     # IP = "localhost"
 
