@@ -19,6 +19,3 @@ copyBtn.addEventListener("click", function() {
     document.execCommand("copy")
     document.body.removeChild(textInput)
 })
-
-const el = document.createElement("div");
-el.style = { "width": "200px", "height": "200px", "position": "absolute" }
