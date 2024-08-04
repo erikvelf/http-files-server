@@ -4,7 +4,39 @@ import argparse
 import threading
 import gzip
 
+from datetime import datetime
+
 HTTP = "HTTP/1.1"
+
+# NOTE PATH DEFINITIONS
+
+STATUS_NOT_FOUND = "HTTP/1.1 404 Not Found\r\n\r\n"
+
+# argv[2] takes the second argument of the command line: ./your_server.sh --directory /tmp/
+# ./your_server.sh is argument N0, so /tmp/ is N2 since indexing starts with 0
+# if there are more than 2 arguments, there is a path in the command line
+
+# FILE_PATH = sys.argv[2] if len(sys.argv) > 2 else f"./files/"
+FILE_PATH = "./files/"
+
+# WARNINGthe server runs in a folder where the code is placed
+# specifiying the directory you will have to place there all of the folders like "info", "files", "templates" 
+# in order for the server to function properly
+LOGS_FILE_PATH = "./info/logs.txt"
+
+CODE_PATH = f"{FILE_PATH}files-code/"
+TEMPLATE_PATH = f"./templates/"
+FAVICON_PATH = f".{TEMPLATE_PATH}favicon.ico"
+DOWNLOADS_PATH = f"{FILE_PATH}downloads/"
+TEMPLATE_FILE_NAME = "code-frame"
+
+print(FILE_PATH)
+print(CODE_PATH)
+print(TEMPLATE_PATH)
+print(FAVICON_PATH)
+print(DOWNLOADS_PATH)
+print(FILE_PATH)
+
 
 STATUS = {
     200: "OK",
@@ -13,7 +45,10 @@ STATUS = {
     401: "Unauthorized"
 }
 
-
+def log(text):
+    log_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    with open(LOGS_FILE_PATH, 'a') as log_file:
+        log_file.write(f"[ {log_time} ]: {text}\n")
 
 def get_local_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -37,6 +72,7 @@ def main():
     if which_os.lower() == "windows":
         can_reuse_port = False
     print(f"\n[0] Using {which_os}.")
+    log(f"\n\n[0] Using {which_os}.\n")
 
     # IP = "localhost"
 
@@ -51,23 +87,28 @@ def main():
         server_socket = socket.create_server((IP,PORT))
     # server_socket.accept() # wait for client
     print(f"\n[*] Listening on {IP}:{PORT}...\n\n")
+    log(f"[*] Listening on {IP}:{PORT}...")
 
     try:
         while True:
             connection, address = server_socket.accept()
             print(f"[*] Connection accepted from {address[0]}:{address[1]}")
+            log(f"[*] Connection accepted from {address[0]}")
 
             ip_address = address[0]
 
-            thread = threading.Thread(target=handle_connections, args=(connection,))
+            thread = threading.Thread(target=handle_connections, args=(connection,address))
             print(f"[v] Thread started for {ip_address}")
             thread.start()
 
             handled_connections += 1
             # print(f"\n[H] Connections handled: {handled_connections}\n\n")
     except KeyboardInterrupt:
+        log("\n[X] Server is shutting down")
         print("\n[X] Server is shutting down")
+        log(f"[X] Handled connections: {handled_connections}")
         print("Handled connections: ", handled_connections)
+
 
 
 
@@ -196,7 +237,9 @@ class Response:
             return response.encode()
 
 
-def handle_connections(connection: socket.socket):
+def handle_connections(connection: socket.socket, address):
+    CLIENT_IP = address[0]
+
     # getting the request and reading it
     request = Request().try_from_string(connection.recv(1024).decode())
 
@@ -206,21 +249,8 @@ def handle_connections(connection: socket.socket):
 
     encodings = request.get_encodings()
 
-    print(f"[R] Requested {target_request}")
-
-    STATUS_NOT_FOUND = "HTTP/1.1 404 Not Found\r\n\r\n"
-
-    # argv[2] takes the second argument of the command line: ./your_server.sh --directory /tmp/
-    # ./your_server.sh is argument N0, so /tmp/ is N2 since indexing starts with 0
-    # if there are more than 2 arguments, there is a path in the command line
-    FILE_PATH = sys.argv[2] if len(sys.argv) > 2 else f"./files/"
-
-    CODE_PATH = f"./files/files-code/"
-    TEMPLATE_PATH = f"./templates/"
-    FAVICON_PATH = f"{TEMPLATE_PATH}favicon.ico"
-    DOWNLOADS_PATH = f"./files/downloads/"
-
-    TEMPLATE_FILE_NAME = "code-frame"
+    print(f"\n[R] {CLIENT_IP} requested {target_request}")
+    log(f"[R] {CLIENT_IP} requested {target_request}")
 
 
 
@@ -236,7 +266,7 @@ def handle_connections(connection: socket.socket):
     #     response = Response().with_content_type("text/plain").with_body(request.headers["User-Agent"]).with_encoding(encodings).build()
 
     elif request.path.startswith("/code/"):
-        code = ""
+        code = None
         file_name = target_request[len("/code/"):]
         file_name = file_name.split('.')[0]
         # print(f"filename: {file_name}")
@@ -252,8 +282,10 @@ def handle_connections(connection: socket.socket):
 
                             print("favicon", favicon)
                             response = Response().with_content_type("image/x-icon").with_body(favicon).build()
+                            
                     except:
                         response = Response().with_status_code(404).build()
+                        log(f"{CLIENT_IP} HTTP 404 Not Found")
         elif request.method == "GET":
             # if request.method.endswith()
 
@@ -283,6 +315,8 @@ def handle_connections(connection: socket.socket):
                     file.close()
             except:
                 print(f"[x] File {file_name}.txt NOT FOUND")
+
+                log(f"[X] {CLIENT_IP} File {file_name} HTTP 404 Not Found in CODE-FILES")
                 response = Response().with_status_code(404).build()
 
 
@@ -304,7 +338,7 @@ def handle_connections(connection: socket.socket):
                         # print("sent js file")
             else:
 
-                if files["html"] != None:
+                if files["html"] != None and code != None:
                     assembled_file = files["html"]
                     # these ---VARIABLE---  serves the purpose of variables and they are hardcoded in the HTML, like fstrings
                     assembled_file = insert_content(assembled_file, code, "---CODE---")
@@ -333,8 +367,10 @@ def handle_connections(connection: socket.socket):
                     # also send a nice html to tell that the download was succesful
             except:
                 response = Response().with_status_code(404).build()
+                log(f"[X] {CLIENT_IP} File {file_name} HTTP 404 Not Found in DOWNLOADS")
 #
         elif request.method == "POST":
+            log(f"[P] {CLIENT_IP} POST {file_name}")
             print(f"FILE PATH IS: {DOWNLOADS_PATH}{file_name}")
             create_file(f"{DOWNLOADS_PATH}{file_name}", request.body)
             response = Response().with_status_code(201).build()
@@ -370,15 +406,17 @@ def handle_connections(connection: socket.socket):
     #     response = Response().with_content_type("")
     else:
         response = Response().with_status_code(404).build()
+        log(f"[X] {CLIENT_IP} HTTP 404 Not Found ")
 
     connection.sendall(response)
+    log(f"[C] {CLIENT_IP} connection closed. \n\n")
     connection.close()
 
 
 def create_file(FILE_PATH: str, file_content):
     new_file = open(FILE_PATH, "w")
     new_file.write(file_content)
-    new_file.close()
+    # new_file.close() 'with' will automatically close the file in Py v3.x
 
 
 if __name__ == "__main__":
