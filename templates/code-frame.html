@@ -2,12 +2,18 @@
 <!DOCTYPE html>
 <html lang="it">
   <head>
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest"> -->
+
     <meta charset="utf-8">
     <title id="title">---FILE_NAME---</title>
-    <link rel="stylesheet" href="code-frame.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="__code-frame.css">
+    <!-- <link rel="icon" type="image/x-icon" href="favicon.ico"> -->
     <!-- /* the code is not showing up well because the style tag has a word in it */ -->
-    <!-- <style>---FILE.CSS---</style> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   </head>
   <body>
     <header id="page-start">
@@ -17,7 +23,7 @@
     </header>
     
     <main id="main-content">
-      <span id="request-field" class="frame">Request: ---SERVER_IP---:4221/code/---FILE_NAME---</span>
+      <span id="request-field" class="frame">Request: ---SERVER_IP---:4221/---PATH---</span>
 
       <pre style="white-space:pre-wrap;"  id="code">
         <xmp id="text-to-copy">---CODE---</xmp>
@@ -33,6 +39,6 @@
     </div>
   </footer>
   </body>
-  <script type="text/javascript" defer="defer" src="code-frame.js"></script>
+  <script type="text/javascript" defer="defer" src="__code-frame.js"></script>
 
 </html>

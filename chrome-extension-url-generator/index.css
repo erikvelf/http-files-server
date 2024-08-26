@@ -1,0 +1,204 @@
+html {
+    --main-color: #1F2937;
+    --secondary-color: #2C3B50;
+    --text-background-color: #262626;
+    --accent-color: #3C94FF;
+    --accent-color-dim: #64AAFF;
+    /* --accent-color-dark: #2aa1eb; */
+
+    --text-color: #FFFFFF;
+    --code-text-color: white;
+    --margin: 15px;
+
+    --footer-height: 80px;
+    --max-width: 1300px;
+    --min-width: 500px;
+
+    /* border-left: solid 2px var(--accent-color);
+    border-right: solid 2px var(--accent-color); */
+
+    /* height: fit-content;
+    width: var(--min-width); */
+    /* height: 100vh; */
+}
+
+body {
+    margin: 0 auto;
+    color: var(--text-color);
+    background-color: var(--main-color);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /* compensating in width the start page padding */
+
+    min-height: 300px;
+    height: fit-content;
+
+    width: var(--min-width);
+}
+
+h1 {
+    display: inline;
+}
+
+a {
+    color: var(--accent-color-dim);
+}
+
+#start-page {
+    margin: 0 auto;
+    /* width: calc(var(--min-width) - 2*10px);
+     */
+    width: 100%;
+    font-size: smaller;
+    background-color: var(--accent-color);
+    height: fit-content;
+    padding: 10px;
+
+}
+
+#history > li {
+    list-style-type: none;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--secondary-color);
+    text-align: center;
+    /* border-radius: 0.5rem; */
+    /* color: var(--secondary-color); */
+    margin: 0.5rem auto;
+    border-radius: 0.25rem;
+    width: fit-content;
+}
+
+
+#history {
+    margin: 0 auto;
+    border: 2px solid var(--accent-color);
+    border-radius: 0.25rem;
+    height: 150px;
+    overflow-y: auto;
+    width: 98vw;
+}
+
+/* #history {
+    text-align: center;
+}
+
+#history {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#history ul li {
+    margin: 0;
+    padding: 0;
+} */
+
+input[type=text] {
+    text-align: center;
+    border: none;
+    width: 3rem;
+    height: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+}
+
+#input-ip {
+    width: 7rem;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    padding: 0.5rem; 
+    background-color: var(--secondary-color);
+    color: var(--accent-color-dim);
+    font-weight: 700;
+    border-radius: 0.5rem;
+}
+
+/* #generate-request {
+
+} */
+
+
+
+#input-wrapper {
+    display: inline;
+    /* border: 2px solid red; */
+    font-weight: 900;
+    text-align: center;
+    padding: 10px;
+
+    margin: 0.5rem 1rem;
+}
+
+.drop-btn {
+    border-radius: 0px;
+    width: 5rem;
+    border-bottom: 0.2rem solid var(--accent-color-dim);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+
+    width: 100px;
+
+    /* transition: 400ms ease-out; */
+}
+
+.dropdown-options {
+    text-align: left;
+    background-color: var(--secondary-color);
+    border-radius: 0px;
+    /* border: solid 2px red; */
+    width: 5rem;
+}
+
+.dropdown-options:hover {
+    background-color: var(--accent-color-dim);
+    color: var(--text-color);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.drop-btn:hover {
+    background-color: var(--accent-color-dim);
+}
+
+
+#file-path-input {
+    /* min-width: 130px; */
+    width: 250px;
+    /* width: fit-content; */
+    /* max-width: 200px; */
+}
+
+#input-fields-wrapper {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+#delete-btn {
+    background-color: rgba(230, 77, 77, 0.74);
+    color: white;
+    transition: background-color 70ms linear;
+    transition: color 200ms linear;
+}
+
+#delete-btn:hover {
+    color: var(--main-color);
+}
+
+#delete-btn:active {
+    background-color: rgba(255, 77, 77, 0.945);
+}

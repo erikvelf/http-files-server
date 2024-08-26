@@ -1,41 +1,74 @@
 # http-files-server
-This project is about improving my previous codecrafters-http-server. Here I will try to create a server that can share files if requested on the LAN.
+This project is about improving my previous codecrafters-http-server. Here I created a server that can share files on the LAN.
 
-## How the server works
-IMPORTANT: the server finds its files in specific folders
 
-Folder explanation:
-- templates: there are stored the needed HTML, CSS, Javascript and a favicon.ico.
-It is named templates because it will combine the code in the folder in the template's HTML
-
-- files: All files that will be shared from the HTTP server, it contains the folder **files-code** that contains ONLY **.txt** of the code (for now only txts are supported) to combine with the template.
-The folder **downloads** contains files of **any extension** to share.
-
-- info: it will store the server's logs and other info in the future
-
-## How to request?
-If you wanna request the code from **files-code**, than you have to type: {server's IP}:{server's PORT}/code/{name of the file in the files-code folder **WITHOUT** its extension}
-
-So the url for the **default settings** will be:
-{IP}:[PORT]/code/code1
-
-If you wanna download a file, you will type the same server's IP and port, but the path will be: /download/{file with its extension}
-
-So the url for the  **default settings** will be:
-{IP}:[PORT]/download/test.test
-
-# This server is able to:
+This server is able to:
 - Run on Linux and Windows
-- Logging the activity
 - Find out its IP address automatically
 - send HTML's with CSS and Javascript
-- pull a .txt file and combining it with a template HTML and CSS with it
-- download any files (not folders for now) in the ./files/downloads folder
-- creating a file in the downloads folder via POST method
+- render pulled code on a web page
+- download any files that are not code files
+- Logs
 
-This first iteration is not perfect and there is a lot to improve.
-- [ ] Polishing the code
+# How to setup the server
+1. Place the http-server.py file in a folder
+2. **IMPORTANT** Create folder named "info" in the same folder as the python program (there you will find the logs of the server)
+3. **IMPORTANT** Create a folder named "templates" in the same folder as the python program
+4. **IMPORTANT** Put the files "__code-frame.html", "__code-frame.css", "__code-frame.js" in the folder "templates"
+5. Run the server **in the same directory where you placed it**
 
-Features soon to be added:
-- [ ] Adding the ability to download folders (for now the server could only access single files and not folders within a specific folder)
+The minimal setup should look like that:
+```
+├── http-server.py
+├── info
+│   └── logs.txt
+└── templates
+    ├── __code-frame.css
+    ├── __code-frame.html
+    └── __code-frame.js
+```
+
+# How to use the server
+To request a **file**, write its path. The file will be searched within the folder where the python program was placed
+Ex: http://{server's IP}:{server's PORT}/{path to the file}
+
+You can get the server's IP and PORT by launching the server and reading the first printed lines:
+```
+[0] Using linux.
+
+[*] Listening on 192.168.178.106:4221...
+```
+
+If you requested a file that has a code extension (and exists) specified in the list **CODE_EXTENSIONS** (line 31 of the python program), then the server will send you a web page with the code file contents in it.
+
+If the file isn't in the CODE_EXTENSIONS list, then if the file exists it will be sent as a file to download.
+
+In any other case you will receive an error 404
+
+
+# Chrome extension to generate urls
+You can use the chrome extension provided in the repo, it does **remember the provided IP and PORT**
+
+It will create a request to the server based on it's inputs
+
+Since the minimal setup doesn't have the folders for the code files and download files, you might want to add them to be able to use the buttons in the dropdown menu "Content"
+To use that button you can either modify the js file of the extension or add folders where you will put files in.
+
+So the setup in the repo looks like that:
+```
+.
+├── files
+│   ├── code
+│   │   └── your_code_file.c
+│   └── download
+│       └── your_file_that_you_want_to_share.download
+├── http-server-v4.py
+├── info
+│   └── logs.txt
+└── templates
+    ├── __code-frame.css
+    ├── __code-frame.html
+    └── __code-frame.js
+
+```
 

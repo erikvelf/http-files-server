@@ -1,11 +1,12 @@
 html {
-    --main-color: #32353E;
-    --secondary-color: #262626;
+    --main-color: #1F2937;
+    --secondary-color: #2C3B50;
     --text-background-color: #262626;
-    --accent-color: #109ff8;
+    --accent-color: #3C94FF;
+    --accent-color-dim: #70B1FF;
     /* --accent-color-dark: #2aa1eb; */
 
-    --text-color: #FFFDFA;
+    --text-color: #FFFFFF;
     --code-text-color: white;
     --margin: 15px;
 
@@ -74,11 +75,12 @@ img {
 }
 
 #page-start {
+    color: var(--text-color);
     /* color: var(--accent-color); */
     text-shadow: 0px 0px 0px ;
     display: flex;
     margin-bottom: 10px;
-    background-color: var(--secondary-color);
+    background-color: var(--accent-color);
     padding: 10px;
 
     position: sticky;
@@ -114,21 +116,23 @@ img {
     width: min(fit-content, var(--max-width));
     max-width: var(--max-width);
     padding: 20px 30px;
-    background-color: var(--text-background-color);
+    background-color: var(--secondary-color);
     border-radius: 10px;
-    border: 5px solid var(--accent-color);
+    /* border: 5px solid var(--accent-color); */
     font-size: 15px;
 
     overflow-x: scroll;
     
+    border-bottom: var(--accent-color) 2px solid;
 }
 
 
 
 #copy-btn {
     font-weight: 700;
-    color: var(--text-color);
-    background-color: var(--accent-color);
+    /* color: var(--main-color); */
+    color: var(--accent-color-dim);
+    background-color: var(--secondary-color);
     border-radius: 0.5em;
     border: none;
     padding: 10px 20px;
@@ -143,7 +147,6 @@ img {
     cursor: pointer;
 
 
-    color: var(--code-text-color);
     transition: background-color 100ms linear;
 
     /* position: absolute;
@@ -176,7 +179,11 @@ img {
 }
 
 #request-field {
-    background-color: var(--accent-color);
+    background-color: var(--secondary-color);
+    color: var(--accent-color-dim);
+    border-radius: 10px;
+
+    border-bottom: var(--accent-color) 2px solid;
 }
 
 
@@ -187,10 +194,14 @@ footer {
     height: var(--footer-height);
     display: block;
     width: 100%; /* optional, sets the footer width */
-    background-color: var(--secondary-color);
+    /* background-color: var(--secondary-color); */
+    background-color: var(--accent-color);
+
+
     /* position:relative; */
     /* bottom: 0; */
     margin-top: auto;
+    height: fit-content;
 }
 
 .footer-content {
@@ -200,6 +211,8 @@ footer {
     margin-right: auto;
     max-width: var(--max-width);
     /* border: 2px solid brown; */
+    height: var(--footer-height);
+    
 }
 
 .info-container {
@@ -212,7 +225,9 @@ footer {
     justify-content: center;
     padding: 10px 20px;
 
+    /* background-color: var(--secondary-color); */
     background-color: var(--secondary-color);
+
 
     /* filter: brightness(95%); */
 

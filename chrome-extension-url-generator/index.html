@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP request generator</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <header id="start-page">
+        <h1>Request</h1>
+        <div id="input-wrapper">
+            <input type="text" name="ip-address" id="input-ip" placeholder="IPv4">
+            :
+            <input type="text" id="input-port" placeholder="PORT">
+        </div>
+        <button id="generate-btn">Generate</button>
+
+        
+    </header>
+    <main id="main-content">
+        <div id="input-fields-wrapper">
+            <input type="text" placeholder="file path: /code/code1" id="file-path-input">
+            <div class="dropdown">
+            <button class="drop-btn" id="content-btn">Content</button>
+                <div class="dropdown-content">
+                    <button class="dropdown-options" id="code-btn">Code</button>
+                    <button class="dropdown-options" id="download-btn">Download</button>
+                    <!-- <button>Post</button> -->
+                </div>    
+            </div>
+            <button id="delete-btn">DELETE ALL</button>
+            
+        </div>
+        <div id="history-container">
+            <div id="history">
+
+            </div>
+        </div>
+        <script src="index.js"></script>
+    </main>
+</body>
+</html>
