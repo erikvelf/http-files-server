@@ -80,7 +80,7 @@ def main():
     can_reuse_port = True
     which_os = platform
 
-    if which_os.lower() == "windows":
+    if "win" in which_os.lower():
         can_reuse_port = False
 
     print(f"\n[0] Using {which_os}.")
