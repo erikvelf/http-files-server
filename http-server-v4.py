@@ -1,5 +1,4 @@
 import socket
-import argparse
 import threading
 import gzip
 from os import getcwd
