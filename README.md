@@ -1,4 +1,4 @@
-# http-files-server
+# http-files-server (learning project)
 This project is about improving my previous codecrafters-http-server. Here I created a server that can share files on the LAN.
 
 
